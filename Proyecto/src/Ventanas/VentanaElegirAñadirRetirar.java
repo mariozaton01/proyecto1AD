@@ -6,6 +6,7 @@
 package Ventanas;
 
 import javax.swing.JOptionPane;
+import  Controlador.Controlador;
 
 /**
  *

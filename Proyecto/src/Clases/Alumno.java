@@ -6,6 +6,7 @@
 package Clases;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author mario
  */
-public class Alumno {
+public class Alumno implements Serializable {
     private String nombre;
     private String Apellido;
     private LocalDate FechaNac;
@@ -25,7 +26,7 @@ public class Alumno {
     private LocalDate Fecha_Alta;
     
     private ArrayList<Asignatura> asigDeAlum = new ArrayList();
-    
+
 
     public Alumno() {
     }
@@ -44,8 +45,9 @@ public class Alumno {
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
+
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -68,7 +70,7 @@ public class Alumno {
     }
 
     public String getDNI() {
-        return DNI;
+        return this.DNI;
     }
 
     public void setDNI(String DNI) {

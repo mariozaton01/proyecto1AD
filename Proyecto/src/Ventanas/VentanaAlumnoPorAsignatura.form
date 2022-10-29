@@ -17,17 +17,9 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuProgramacionActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuSistemas">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Sistemas"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuSistemasActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuBases">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Base de Datos"/>
+                <Property name="text" type="java.lang.String" value="Acceso a datos"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBasesActionPerformed"/>
@@ -35,34 +27,10 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuEntornos">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Entornos de Desarrollo"/>
+                <Property name="text" type="java.lang.String" value="EIE"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuEntornosActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuIngles">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ingles"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuInglesActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuFol">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="FOL"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuFolActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuLenguajes">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lenguaje de Marcas"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuLenguajesActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

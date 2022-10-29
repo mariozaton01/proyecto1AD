@@ -5,13 +5,14 @@
  */
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author mario
  */
-public class Asignatura {
+public class Asignatura implements Serializable {
     private String Nombre;
     private int ID;
     private ArrayList<Alumno> AlumnosPorAsig= new ArrayList();

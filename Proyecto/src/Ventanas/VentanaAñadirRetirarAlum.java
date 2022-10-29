@@ -7,13 +7,21 @@ package Ventanas;
 
 import Clases.Alumno;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
-import Controlador;
+import javax.swing.*;
+
+import Controlador.Controlador;
+import Clases.*;
+import creacionFicheros.AlumnosRelated;
+
+import static creacionFicheros.AlumnosRelated.readFile;
 
 /**
  *
@@ -21,19 +29,30 @@ import Controlador;
  */
 public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
 
-    
-
     /**
      * Creates new form VentanaAradirRetirarAlum
      */private int opcion;
-     
+
+
     public VentanaAñadirRetirarAlum() {
         initComponents();
         try {
-                Controlador.listaAlumnos(cbAlumnoRetirar);
+                listadoAlumnos(cbAlumnoRetirar);
+                // old Controlador.listaAlumnos(cbAlumnoRetirar);
             } catch (Exception ex) {
                 Logger.getLogger(VentanaAñadirRetirarAlum.class.getName()).log(Level.SEVERE, null, ex);
             }
+    }
+
+    private void listadoAlumnos(JComboBox comboBox) throws IOException {
+        //Leemos el fichero de alumnos.
+        File file = new File("src/Ficheros/Alumnos.dat");
+        ArrayList<Alumno> listaAlum =  readFile(file);
+        //Agregamos al comboBox todos los alumnos.
+        for (Alumno alum: listaAlum) {
+            String nombre= alum.getNombre() +" "+alum.getApellido();
+            comboBox.addItem(nombre);
+        }
     }
 
     /**
@@ -162,7 +181,11 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         bAñadir.setText("Aceptar");
         bAñadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bAñadirActionPerformed(evt);
+                try {
+                    bAñadirActionPerformed(evt);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -188,7 +211,11 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         bBuscarDNI.setText("Buscar DNI");
         bBuscarDNI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bBuscarDNIActionPerformed(evt);
+                try {
+                    bBuscarDNIActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -339,89 +366,107 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         Controlador.bCancelar(this);
     }//GEN-LAST:event_bCancelarAñadirActionPerformed
 
-    private void bAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAñadirActionPerformed
-        // TODO add your handling code here:
+    private void bAñadirActionPerformed(java.awt.event.ActionEvent evt) throws Exception {//GEN-FIRST:event_bAñadirActionPerformed
+        // opcion añadir alumno
         if(opcion==0){
+            int contErrores = 0;
+
             if(validarNombre(tNombre.getText())==false){
                 tNombre.setText(tNombre.getText()+"*");
                 tNombre.setForeground(Color.red);
+
+                contErrores ++;
             }
-            else{
+            else {
                 tNombre.setForeground(Color.black);
-                if(validarApellido(tApellido.getText())==false){
-                    tApellido.setText(tApellido.getText()+"*");
-                    tApellido.setForeground(Color.red);
-                }
-                else{
-                    if(validarDireccion(tDireccion.getText())==false){
-                        tDireccion.setText(tDireccion.getText()+"*");
-                        tDireccion.setForeground(Color.red);
-                    }
-                    else{
-                        if( validarCodigoPostal(tCodigoPostal.getText())==false){
-                            tCodigoPostal.setText(tCodigoPostal.getText()+"*");
-                            tCodigoPostal.setForeground(Color.red);
-                        }
-                        else{
-                            if(validarTelefono(tTelefono.getText())==false){
-                                tTelefono.setText(tTelefono.getText()+"*");
-                                tTelefono.setForeground(Color.red);
-                            }
-                            else{
-                                if(validarEmail(tEmail.getText())==false){
-                                    tEmail.setText(tEmail.getText()+"*");
-                                    tEmail.setForeground(Color.red);
-                                }
-                                else{
-                                    if(validarDNI(tDNI.getText())==false){
-                                        tDNI.setText(tDNI.getText()+"*");
-                                        tDNI.setForeground(Color.red);
-                                    }
-                                    else{
-                                        if(validarFechaNac(tFechaNac.getText())==false){
-                                            tFechaNac.setText(tFechaNac.getText()+"*");
-                                            tFechaNac.setForeground(Color.red);
-                                        }
-                                        else{
-                                            LocalDate fechaLD= LocalDate.parse(tFechaNac.getText());
-                                            LocalDate fecha_alta= Controlador.conseguirFecha();
-                                            Alumno alum= new Alumno(tNombre.getText(),tApellido.getText(),fechaLD, tDNI.getText(),tDireccion.getText(), tCodigoPostal.getText(), Integer.parseInt(tTelefono.getText()), tEmail.getText(), fecha_alta );
-                                            try {
-                                                if(Controlador.comprobarDNIenBD(tDNI.getText())==false){
-                                                    Controlador.insertar(alum);
-                                                    
-                                                    
-                                                    JOptionPane.showMessageDialog(null, "El alumno ha sido añadido con exito");
-                                                    
-                                                    Controlador.volverInicio(this);
-                                                    
-                                                }
-                                                else
-                                                    dniusado.setVisible(true);
-                                                
-                                                
-                                            } catch (Exception ex) {
-                                                Logger.getLogger(VentanaAñadirRetirarAlum.class.getName()).log(Level.SEVERE, null, ex);
-                                            }
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-
-                    }
-
-                }
             }
+
+            if(validarApellido(tApellido.getText())==false){
+                tApellido.setText(tApellido.getText()+"*");
+                tApellido.setForeground(Color.red);
+
+                contErrores ++;
+            }
+
+            if(validarDireccion(tDireccion.getText())==false){
+                tDireccion.setText(tDireccion.getText()+"*");
+                tDireccion.setForeground(Color.red);
+
+                contErrores ++;
+            }
+
+            if( validarCodigoPostal(tCodigoPostal.getText())==false){
+                tCodigoPostal.setText(tCodigoPostal.getText()+"*");
+                tCodigoPostal.setForeground(Color.red);
+
+                contErrores ++;
+            }
+
+            if(validarTelefono(tTelefono.getText())==false){
+                tTelefono.setText(tTelefono.getText()+"*");
+                tTelefono.setForeground(Color.red);
+
+                contErrores ++;
+            }
+
+            if(validarEmail(tEmail.getText())==false){
+                tEmail.setText(tEmail.getText()+"*");
+                tEmail.setForeground(Color.red);
+
+                contErrores ++;
+            }
+
+            if(validarDNI(tDNI.getText())==false){
+                tDNI.setText(tDNI.getText()+"*");
+                tDNI.setForeground(Color.red);
+
+                contErrores ++;
+            }
+
+            if(validarFechaNac(tFechaNac.getText())==false){
+                tFechaNac.setText(tFechaNac.getText()+"*");
+                tFechaNac.setForeground(Color.red);
+
+                contErrores ++;
+
+            }
+
+            //if(Controlador.comprobarDNIenBD(tDNI.getText())){
+
+            if(!AlumnosRelated.comprobarDNIExistente(tDNI.getText())){
+
+                dniusado.setVisible(true);
+                contErrores ++;
+            }
+
+            if (contErrores == 0){
+                LocalDate fechaLD = LocalDate.parse(tFechaNac.getText());
+                LocalDate fecha_alta = Controlador.conseguirFecha();
+
+                Alumno alum = new Alumno(tNombre.getText(), tApellido.getText(), fechaLD, tDNI.getText(), tDireccion.getText(), tCodigoPostal.getText(), Integer.parseInt(tTelefono.getText()), tEmail.getText(), fecha_alta);
+                try{
+                    AlumnosRelated.insertar(alum);
+                    //Controlador.insertar(alum);
+                    JOptionPane.showMessageDialog(null, "El alumno ha sido añadido con exito");
+                    Controlador.volverInicio(this);
+                }
+                catch (Exception e){
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la inserción del usuario");
+                }
+
+
+
+
+            }
+
+
         }
+        //Opcion borrar alumno.
         if(opcion==1){
-            Controlador.borrarAlumno(cbAlumnoRetirar.getSelectedIndex());
+            AlumnosRelated.borrarPorIndex(cbAlumnoRetirar.getSelectedIndex());
             JOptionPane.showMessageDialog(null, "El alumno ha sido borrado con exito");
             
             Controlador.volverInicio(this);
-            
-            
             
         }
     }//GEN-LAST:event_bAñadirActionPerformed
@@ -472,9 +517,11 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         tNombre.setForeground(Color.black);
     }//GEN-LAST:event_tNombreFocusGained
 
-    private void bBuscarDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBuscarDNIActionPerformed
+    private void bBuscarDNIActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_bBuscarDNIActionPerformed
         // TODO add your handling code here:
-        String dni= Controlador.setearDNI(cbAlumnoRetirar.getSelectedIndex());
+
+        String dni= AlumnosRelated.getDNI(cbAlumnoRetirar.getSelectedIndex());
+                //Controlador.setearDNI(cbAlumnoRetirar.getSelectedIndex());
         tDNIborrar.setText(dni);
         
     }//GEN-LAST:event_bBuscarDNIActionPerformed
