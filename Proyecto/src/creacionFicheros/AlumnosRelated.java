@@ -3,6 +3,7 @@ package creacionFicheros;
 import Clases.*;
 import com.sun.jdi.ObjectReference;
 
+import javax.swing.*;
 import java.io.*;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
@@ -94,10 +95,15 @@ public class AlumnosRelated {
             //escribimos de nuevo el fichero
             writeFile(listaAlum);
 
-
-
-
-
+    }
+    public static void listadoAlumnosComboBox(JComboBox comboBox) throws IOException {
+        //Leemos el fichero de alumnos.
+        ArrayList<Alumno> listaAlum =  readFile(file);
+        //Agregamos al comboBox todos los alumnos.
+        for (Alumno alum: listaAlum) {
+            String nombre= alum.getNombre() +" "+alum.getApellido();
+            comboBox.addItem(nombre);
+        }
     }
 
     public static ArrayList<Alumno> createAlums(){
@@ -152,6 +158,19 @@ public class AlumnosRelated {
         for (Alumno alumno: listaAlum ) {
             objOutput.writeObject(alumno);
         }
+    }
+
+    public static String verListaAlumnos() throws IOException {
+        String texto ="";
+        ArrayList<Alumno> listaAlum = new ArrayList<>();
+        listaAlum = readFile(file);
+
+        for (Alumno alum:listaAlum ) {
+            String nombre= "- " +alum.getNombre() +" "+alum.getApellido() + "--" + alum.getDNI();
+            texto= texto+"\n"+ nombre;
+        }
+        return texto;
+
     }
 }
 

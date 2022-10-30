@@ -8,13 +8,27 @@ import java.util.ArrayList;
 
 public class AsignaturasRelated {
 
+    static File fich = new File("src/Ficheros/Asignaturas.dat");
+
     public static void main() throws IOException {
 
-        String listaAsignaturas[] = {"Progamacion", "Sistemas", "Acceso a datos","EIE"};
+        ArrayList<Asignatura> listaAsignaturas = new ArrayList<Asignatura>();
+        String[] asigStrings = {"Progamacion", "Sistemas", "Acceso a datos","EIE"};
 
-        File fich = new File("src/Ficheros/Asignaturas.dat");
+        File alumFile = new File("src/Ficheros/Alumnos.dat");
 
-        writeFile(fich,listaAsignaturas);
+        ArrayList<Alumno> listaAlum = AlumnosRelated.readFile(alumFile);
+
+        int id = 1;
+        for (String nombre: asigStrings) {
+
+            Asignatura asig = new Asignatura(nombre,id);
+            asig.setAlumnosPorAsig(listaAlum);
+            listaAsignaturas.add(asig);
+            id ++;
+        }
+
+        writeFile(listaAsignaturas);
 
     }
 
@@ -44,17 +58,13 @@ public class AsignaturasRelated {
         return listaAsig;
 
     }
+    public  static void writeFile( ArrayList<Asignatura> listaAsig) throws IOException {
 
-    public  static void writeFile(File file, String[] listaAsig) throws IOException {
-
-        FileOutputStream fOutput = new FileOutputStream(file);
+        FileOutputStream fOutput = new FileOutputStream(fich);
         ObjectOutputStream objOutput = new ObjectOutputStream(fOutput);
-        int id = 1;
-        for (String nombre: listaAsig) {
-
-            Asignatura asig = new Asignatura(nombre,id);
+        for (Asignatura asig: listaAsig ) {
             objOutput.writeObject(asig);
-            id ++;
         }
+
     }
 }

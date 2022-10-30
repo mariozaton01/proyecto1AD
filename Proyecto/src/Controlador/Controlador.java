@@ -261,17 +261,6 @@ public class Controlador {
         //recogemos el dni introducido para comprobar que está disponible
             return ta.comprobarDNI(dni);
 
-
-    }
-
-    public static void listaAlumnos(JComboBox combobox)throws Exception {
-        //mostramos todos los alumnos en un combobox
-        listaAlum= new ArrayList();
-        listaAlum= ta.seleccionarAlumnos(listaAlum);
-        for (int x = 0; x < listaAlum.size(); x++) {
-            String nombre= listaAlum.get(x).getNombre() +" "+listaAlum.get(x).getApellido();
-            combobox.addItem(nombre);
-        }
     }
 
     public static String setearDNI(int selectedIndex) {

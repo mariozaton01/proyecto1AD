@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Controlador.Controlador;
+import creacionFicheros.AlumnosRelated;
 
 /**
  *
@@ -153,7 +154,7 @@ public class VentanaAlumnos extends javax.swing.JFrame {
         
         String texto="";
         try {
-            texto= Controlador.verListaAlumnos(texto);
+            texto= AlumnosRelated.verListaAlumnos();
         } catch (Exception ex) {
             Logger.getLogger(VentanaAlumnos.class.getName()).log(Level.SEVERE, null, ex);
         }

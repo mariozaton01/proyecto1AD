@@ -37,22 +37,10 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
     public VentanaAñadirRetirarAlum() {
         initComponents();
         try {
-                listadoAlumnos(cbAlumnoRetirar);
-                // old Controlador.listaAlumnos(cbAlumnoRetirar);
+                AlumnosRelated.listadoAlumnosComboBox(cbAlumnoRetirar);
             } catch (Exception ex) {
                 Logger.getLogger(VentanaAñadirRetirarAlum.class.getName()).log(Level.SEVERE, null, ex);
             }
-    }
-
-    private void listadoAlumnos(JComboBox comboBox) throws IOException {
-        //Leemos el fichero de alumnos.
-        File file = new File("src/Ficheros/Alumnos.dat");
-        ArrayList<Alumno> listaAlum =  readFile(file);
-        //Agregamos al comboBox todos los alumnos.
-        for (Alumno alum: listaAlum) {
-            String nombre= alum.getNombre() +" "+alum.getApellido();
-            comboBox.addItem(nombre);
-        }
     }
 
     /**

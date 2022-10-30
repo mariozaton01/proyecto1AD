@@ -8,6 +8,7 @@ package Ventanas;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Controlador.Controlador;
+import creacionFicheros.AlumnosRelated;
 
 /**
  *
@@ -21,8 +22,8 @@ public class VentanaAsignaturasaDeAlumno extends javax.swing.JFrame {
     public VentanaAsignaturasaDeAlumno() {
         initComponents();
         try {
-            Controlador.listaAlumnos(cbAlumno);
-    
+            AlumnosRelated.listadoAlumnosComboBox(cbAlumno);
+
         } catch (Exception ex) {
             Logger.getLogger(VentanaRenunciarAsig.class.getName()).log(Level.SEVERE, null, ex);
         }

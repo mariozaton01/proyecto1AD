@@ -8,5 +8,21 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream-benchmark/src/java" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream-benchmark/src/test" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream-hibernate/src/java" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream-hibernate/src/test" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream-its/src/test" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream-jmh/src/java" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream/src/java" />
+          <root url="file://$MODULE_DIR$/../../../xstream-1.4.19/xstream/src/test" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
