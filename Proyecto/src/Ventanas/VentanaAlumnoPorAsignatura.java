@@ -5,6 +5,7 @@
  */
 package Ventanas;
 import  Controlador.Controlador;
+import creacionFicheros.XMLrelated;
 
 import javax.swing.JOptionPane;
 
@@ -139,7 +140,8 @@ public class VentanaAlumnoPorAsignatura extends javax.swing.JFrame {
 
     private void menuProgramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProgramacionActionPerformed
         // TODO add your handling code here:
-        Controlador.conseguirListaAlum(menuProgramacion, textArea);
+        String nombreAsig = menuProgramacion.getText();
+        XMLrelated.getListaAlum(nombreAsig,textArea);
     }//GEN-LAST:event_menuProgramacionActionPerformed
 
     private void bVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bVolverActionPerformed
@@ -154,12 +156,14 @@ public class VentanaAlumnoPorAsignatura extends javax.swing.JFrame {
 
     private void menuBasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBasesActionPerformed
         // TODO add your handling code here:
-        Controlador.conseguirListaAlum(menuBases, textArea);
+        String nombreAsig = menuBases.getText();
+        XMLrelated.getListaAlum(nombreAsig,textArea);
     }//GEN-LAST:event_menuBasesActionPerformed
 
     private void menuEntornosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEntornosActionPerformed
         // TODO add your handling code here:
-        Controlador.conseguirListaAlum(menuEntornos, textArea);
+        String nombreAsig = menuEntornos.getText();
+        XMLrelated.getListaAlum(nombreAsig,textArea);
     }//GEN-LAST:event_menuEntornosActionPerformed
 
     /**

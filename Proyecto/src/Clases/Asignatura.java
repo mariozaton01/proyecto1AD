@@ -26,7 +26,7 @@ public class Asignatura implements Serializable {
     }
 
     public String getNombre() {
-        return Nombre;
+        return this.Nombre;
     }
 
     public void setNombre(String Nombre) {
@@ -34,7 +34,7 @@ public class Asignatura implements Serializable {
     }
 
     public int getID() {
-        return ID;
+        return this.ID;
     }
 
     public void setID(int ID) {
@@ -42,7 +42,7 @@ public class Asignatura implements Serializable {
     }
 
     public ArrayList<Alumno> getAlumnosPorAsig() {
-        return AlumnosPorAsig;
+        return this.AlumnosPorAsig;
     }
 
     public void setAlumnosPorAsig(ArrayList<Alumno> AlumnosPorAsig) {

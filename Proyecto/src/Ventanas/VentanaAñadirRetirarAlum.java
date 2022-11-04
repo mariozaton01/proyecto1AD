@@ -20,6 +20,7 @@ import javax.swing.*;
 import Controlador.Controlador;
 import Clases.*;
 import creacionFicheros.AlumnosRelated;
+import creacionFicheros.AsignaturasRelated;
 
 import static creacionFicheros.AlumnosRelated.readFile;
 
@@ -32,7 +33,6 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
     /**
      * Creates new form VentanaAradirRetirarAlum
      */private int opcion;
-
 
     public VentanaAñadirRetirarAlum() {
         initComponents();
@@ -419,8 +419,6 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
 
             }
 
-            //if(Controlador.comprobarDNIenBD(tDNI.getText())){
-
             if(!AlumnosRelated.comprobarDNIExistente(tDNI.getText())){
 
                 dniusado.setVisible(true);
@@ -434,7 +432,6 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
                 Alumno alum = new Alumno(tNombre.getText(), tApellido.getText(), fechaLD, tDNI.getText(), tDireccion.getText(), tCodigoPostal.getText(), Integer.parseInt(tTelefono.getText()), tEmail.getText(), fecha_alta);
                 try{
                     AlumnosRelated.insertar(alum);
-                    //Controlador.insertar(alum);
                     JOptionPane.showMessageDialog(null, "El alumno ha sido añadido con exito");
                     Controlador.volverInicio(this);
                 }
@@ -442,20 +439,25 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la inserción del usuario");
                 }
 
-
-
-
             }
-
 
         }
         //Opcion borrar alumno.
         if(opcion==1){
-            AlumnosRelated.borrarPorIndex(cbAlumnoRetirar.getSelectedIndex());
-            JOptionPane.showMessageDialog(null, "El alumno ha sido borrado con exito");
-            
-            Controlador.volverInicio(this);
-            
+            try{
+                String dni = AlumnosRelated.getDNI(cbAlumnoRetirar.getSelectedIndex());
+                AlumnosRelated.borrarPorIndex(cbAlumnoRetirar.getSelectedIndex());
+                AsignaturasRelated.borrarAlumno(dni);
+                JOptionPane.showMessageDialog(null, "El alumno ha sido borrado con exito");
+
+                Controlador.volverInicio(this);
+
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, "ERROR. El alumno no se ha borrado");
+
+            }
+
         }
     }//GEN-LAST:event_bAñadirActionPerformed
 
@@ -509,7 +511,6 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         String dni= AlumnosRelated.getDNI(cbAlumnoRetirar.getSelectedIndex());
-                //Controlador.setearDNI(cbAlumnoRetirar.getSelectedIndex());
         tDNIborrar.setText(dni);
         
     }//GEN-LAST:event_bBuscarDNIActionPerformed
@@ -597,10 +598,7 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         dniusado.setVisible(false);
         
         bBuscarDNI.setVisible(false);
-        
-        
-        
-        
+
     }
 
     public void retirar() {
@@ -684,8 +682,6 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
             return false;
             
         }
-        
-    
 
     private boolean validarDNI(String dni) {
         Pattern pDNI = Pattern.compile("^[0-9]{8}[QWRTYPSDFGHJKLÑZXCVBNM]$");
@@ -734,7 +730,6 @@ public class VentanaAñadirRetirarAlum extends javax.swing.JFrame {
         else 
             return false;
     }
-
     
     }
     

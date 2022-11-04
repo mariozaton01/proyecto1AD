@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Proyecto.iml" filepath="$PROJECT_DIR$/Proyecto.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jcalendar-1.4/jcalendar-1.4.iml" filepath="$PROJECT_DIR$/jcalendar-1.4/jcalendar-1.4.iml" />
     </modules>
   </component>
 </project>

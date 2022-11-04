@@ -14,9 +14,7 @@ public class AlumnosRelated {
     static File file = new File("src/Ficheros/Alumnos.dat");
 
     public static void main() throws Exception {
-
-
-
+        
         if(file.exists()){
             // en caso de que el fichero exista hay que leer lo que ya hay en el fichero para no sobreescribirlo
             ArrayList<Alumno> listaAlum;
@@ -71,6 +69,7 @@ public class AlumnosRelated {
         listaAlum = readFile(file);
 
         listaAlum.add(alum);
+        AsignaturasRelated.addAlumno(alum);
 
         writeFile(listaAlum);
 
@@ -171,6 +170,11 @@ public class AlumnosRelated {
         }
         return texto;
 
+    }
+
+    public static Alumno getAlumno(int index) throws IOException {
+        ArrayList<Alumno> listaAlum = readFile(file);
+        return listaAlum.get(index);
     }
 }
 

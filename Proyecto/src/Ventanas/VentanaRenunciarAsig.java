@@ -5,10 +5,18 @@
  */
 package Ventanas;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Clases.Alumno;
+import Clases.Asignatura;
 import Controlador.Controlador;
 import creacionFicheros.AlumnosRelated;
+import creacionFicheros.AsignaturasRelated;
+
+import javax.swing.*;
 
 /**
  *
@@ -73,7 +81,11 @@ public class VentanaRenunciarAsig extends javax.swing.JFrame {
         bRenunciar.setText("Renunciar");
         bRenunciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRenunciarActionPerformed(evt);
+                try {
+                    bRenunciarActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -176,10 +188,14 @@ public class VentanaRenunciarAsig extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cbAsignaturaActionPerformed
 
-    private void bRenunciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRenunciarActionPerformed
+    private void bRenunciarActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_bRenunciarActionPerformed
         // TODO add your handling code here:
-        Controlador.borrarAsig(cbAlumno.getSelectedIndex(), cbAsignatura.getSelectedIndex(),cbAsignatura);
-        reasignarAsig();
+        Alumno alum =  AlumnosRelated.getAlumno(cbAlumno.getSelectedIndex());
+        boolean borrado = AsignaturasRelated.deleteAsigFromAlumno(alum.getDNI(),cbAsignatura.getSelectedIndex(),cbAsignatura);
+        if (borrado){
+            JOptionPane.showMessageDialog(null,"Asignatura eliminada.");
+            reasignarAsig();
+        }
     }//GEN-LAST:event_bRenunciarActionPerformed
 
     /**
@@ -217,15 +233,15 @@ public class VentanaRenunciarAsig extends javax.swing.JFrame {
         });
     }
     public void reasignarAsig(){
+        cbAsignatura.removeAllItems();
+        ArrayList<Asignatura> asigDeAlumno = new ArrayList<>();
         try {
             // TODO add your handling code here:
-            Controlador.comprobardniconRelacion(cbAlumno.getSelectedIndex());
+            asigDeAlumno = AsignaturasRelated.verAsigDeAlumno(cbAlumno.getSelectedIndex());
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
         }
-            
-        
-        Controlador.asignarAsignaturas(cbAsignatura);
+        AsignaturasRelated.AsignaturasToComboBox(asigDeAlumno,cbAsignatura);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

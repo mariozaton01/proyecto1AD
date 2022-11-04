@@ -5,10 +5,14 @@
  */
 package Ventanas;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Clases.Asignatura;
 import Controlador.Controlador;
 import creacionFicheros.AlumnosRelated;
+import creacionFicheros.XMLrelated;
 
 /**
  *
@@ -137,8 +141,8 @@ public class VentanaAsignaturasaDeAlumno extends javax.swing.JFrame {
     private void cbAlumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbAlumnoItemStateChanged
         try {
             // TODO add your handling code here:
-            Controlador.comprobardniconRelacion(cbAlumno.getSelectedIndex());
-            Controlador.setearTexto(textarea);
+            ArrayList<Asignatura> AsigsDeAlum = XMLrelated.verAsigDeAlumno(cbAlumno.getSelectedIndex());
+            XMLrelated.setearTextoAsignaturas(textarea,AsigsDeAlum);
         } catch (Exception ex) {
             Logger.getLogger(VentanaAsignaturasaDeAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }

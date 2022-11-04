@@ -3,6 +3,7 @@ package creacionFicheros;
 import Clases.Alumno;
 import Clases.Asignatura;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -12,23 +13,28 @@ public class AsignaturasRelated {
 
     public static void main() throws IOException {
 
-        ArrayList<Asignatura> listaAsignaturas = new ArrayList<Asignatura>();
-        String[] asigStrings = {"Progamacion", "Sistemas", "Acceso a datos","EIE"};
+        if (!fich.exists()){
 
-        File alumFile = new File("src/Ficheros/Alumnos.dat");
+            ArrayList<Asignatura> listaAsignaturas = new ArrayList<Asignatura>();
+            String[] asigStrings = {"Programacion", "Acceso a datos","EIE"};
 
-        ArrayList<Alumno> listaAlum = AlumnosRelated.readFile(alumFile);
+            File alumFile = new File("src/Ficheros/Alumnos.dat");
 
-        int id = 1;
-        for (String nombre: asigStrings) {
+            ArrayList<Alumno> listaAlum = AlumnosRelated.readFile(alumFile);
 
-            Asignatura asig = new Asignatura(nombre,id);
-            asig.setAlumnosPorAsig(listaAlum);
-            listaAsignaturas.add(asig);
-            id ++;
+            int id = 1;
+            for (String nombre: asigStrings) {
+
+                Asignatura asig = new Asignatura(nombre,id);
+                asig.setAlumnosPorAsig(listaAlum);
+                listaAsignaturas.add(asig);
+                id ++;
+            }
+
+            writeFile(listaAsignaturas);
         }
 
-        writeFile(listaAsignaturas);
+
 
     }
 
@@ -65,6 +71,91 @@ public class AsignaturasRelated {
         for (Asignatura asig: listaAsig ) {
             objOutput.writeObject(asig);
         }
+
+    }
+
+    public static ArrayList<Asignatura> verAsigDeAlumno(int index) throws IOException {
+        Alumno alum = AlumnosRelated.getAlumno(index);
+        String dni = alum.getDNI();
+
+        ArrayList<Asignatura> listaAsig = readFile(fich);
+        ArrayList<Asignatura> asignaturasAMostrar = new ArrayList<>();
+
+        for (Asignatura asig: listaAsig) {
+            int posicion = 0;
+            for (Alumno alumno: asig.getAlumnosPorAsig() ) {
+                if (alumno.getDNI().equals(dni)){
+                    asignaturasAMostrar.add(asig);
+                    break;
+                }
+                posicion ++;
+            }
+        }
+        return asignaturasAMostrar;
+    }
+
+    public static void AsignaturasToComboBox(ArrayList<Asignatura> asignaturas, JComboBox<String> comboBox) {
+        for (Asignatura asig: asignaturas) {
+            comboBox.addItem(asig.getNombre());
+        }
+
+    }
+
+    public static boolean deleteAsigFromAlumno(String dni, int index, JComboBox<String> cbAsignatura) throws IOException {
+        /*Hago el borrado de la asignatura cambiando el array de alumnos por uno nuevo donde no esté el alumno en cuestión ya que
+        * si hago un .remove del array se me borra ese alumno en todos los arrays de alumno de las distintas asignaturas auqnue
+        * lo borre solo de una asignatura*/
+        ArrayList<Asignatura> listaAsig = readFile(fich);
+        Asignatura asig = listaAsig.get(index);
+
+        ArrayList<Alumno>listaAlum =  asig.getAlumnosPorAsig();
+        ArrayList<Alumno> newListaAlum = new ArrayList<>();
+
+        boolean borrado = false;
+        for (Alumno alum: listaAlum) {
+            if(alum.getDNI().equals(dni)){
+
+                borrado = true;
+            }
+            else {
+                newListaAlum.add(alum);
+            }
+
+        }
+        if (borrado){
+            listaAsig.get(index).setAlumnosPorAsig(newListaAlum);
+
+            writeFile(listaAsig);
+
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public static void addAlumno(Alumno alum) throws IOException {
+        ArrayList<Asignatura> listaAsig = readFile(fich);
+        listaAsig.get(0).getAlumnosPorAsig().add(alum);
+        writeFile(listaAsig);
+
+    }
+
+    public static void borrarAlumno(String dni) throws IOException {
+        ArrayList<Asignatura> listaAsig = readFile(fich);
+
+        for (Asignatura asig: listaAsig ) {
+            ArrayList<Alumno>listaAlum = asig.getAlumnosPorAsig();
+            Alumno alumBorrar = null;
+            for (Alumno alum: listaAlum ) {
+                if (alum.getDNI().equals(dni)){
+                    alumBorrar = alum;
+                }
+            }
+            asig.getAlumnosPorAsig().remove(alumBorrar);
+
+        }
+
+        writeFile(listaAsig);
 
     }
 }

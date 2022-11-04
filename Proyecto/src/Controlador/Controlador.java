@@ -3,13 +3,9 @@ package Controlador;/*
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-import BaseDatos.*;
 import Excepciones.formatoIncorrecto;
 import Ventanas.*;
-import Clases.*;
 import creacionFicheros.*;
-
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,20 +18,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-
 /**
  *
  * @author mario
  */
 public class Controlador {
-
-
-
-    /**
-     * @param args the command line arguments
-     *     Declaracion de todas las ventanas que se van a utilizar en el programa.
-     *     Las declaramos en el controlador.
-     */
 
     //Ventana inicial
      private static VentanaInicio vInicio;
@@ -58,27 +45,12 @@ public class Controlador {
      //regexp con el que controlamos el formato introducido.
      private static Pattern DATE_PATTERN = Pattern.compile("^((19|2[0-9])[0-9]{2})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$");
      //Relacionado con la base de datos
-     private static Conexion bd;
-     private static TablaAlumnos ta;
-     private static TablaAsignaturas tasig;
-     private static tablaRelacion trelacion;
-     private static ArrayList<Alumno> listaAlum;
-     private static ArrayList<Asignatura> listaAsig;
-
-
-
 
     public static void main(String[] args) throws Exception {
         //ejecutamos los ficheros .dat
         AlumnosRelated.main();
         AsignaturasRelated.main();
 
-        // TODO code application logic here
-        bd= new Conexion();
-        bd.conectar();
-        ta= new TablaAlumnos(bd.getCon());
-        tasig= new TablaAsignaturas(bd.getCon());
-        trelacion= new tablaRelacion(bd.getCon());
         //declaramos la ventana inicial
         vInicio = new VentanaInicio();
 
@@ -113,8 +85,6 @@ public class Controlador {
         vAnterior= vInicio;
 
     }
-
-
 
 
     //Metodos de la ventana vElegirAñadirRetirar
@@ -167,7 +137,6 @@ public class Controlador {
 
         }
 
-
     }
 
     public static void bRetirar() {
@@ -180,8 +149,6 @@ public class Controlador {
         vAñadirRetirarAlum.retirar();
 
         vAnterior=vElegirAñadirRetirar;
-
-
 
     }
 
@@ -249,111 +216,11 @@ public class Controlador {
         return fecha;
     }
 
-    public static void insertar(Alumno alum)throws Exception {
-        ta.insertar(alum);
-        String dni= alum.getDNI();
-        ArrayList <Asignatura> asignaturasDeAlumNuevo= new ArrayList();
-        asignaturasDeAlumNuevo=tasig.seleccionarAsignaturas(asignaturasDeAlumNuevo);
-        trelacion.insertarAsignaturas(dni, asignaturasDeAlumNuevo);
-    }
-
-    public static boolean comprobarDNIenBD(String dni)throws Exception {
-        //recogemos el dni introducido para comprobar que está disponible
-            return ta.comprobarDNI(dni);
-
-    }
-
-    public static String setearDNI(int selectedIndex) {
-        return listaAlum.get(selectedIndex).getDNI();
-    }
-
-    public static void borrarAlumno(int selectedIndex) {
-        try {
-            ta.borrar(listaAlum.get(selectedIndex).getDNI());
-        } catch (Exception ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public static void volverInicio(JFrame v) {
         v.dispose();
         vInicio.setVisible(true);
     }
 
-    public static String verListaAlumnos(String texto)throws Exception {
-        listaAlum= new ArrayList();
-        listaAlum= ta.seleccionarAlumnos(listaAlum);
-        for (int x = 0; x < listaAlum.size(); x++) {
-            String nombre= listaAlum.get(x).getNombre() +" "+listaAlum.get(x).getApellido();
-            texto="" +texto;
-            texto= texto+"\n"+ nombre;
-
-        }
-        return texto;
-    }
-
-    public static void comprobardniconRelacion(int selectedIndex)throws Exception {
-
-        String dni= listaAlum.get(selectedIndex).getDNI();
-        listaAsig= new ArrayList();
-        listaAsig=trelacion.comprobarAlumno(dni);
-        tasig.conseguirNombre(listaAsig);
-    }
-
-    public static void asignarAsignaturas(JComboBox combobox) {
-        combobox.removeAllItems();
-        for (int x = 0; x < listaAsig.size(); x++) {
-            String asignatura= listaAsig.get(x).getNombre();
-            combobox.addItem(asignatura);
-        }
-    }
-
-    public static void borrarAsig(int selectedIndex, int selectedIndex0, JComboBox cbAsig) {
-        String dni= listaAlum.get(selectedIndex).getDNI();
-        int id_asig= listaAsig.get(selectedIndex0).getID();
-        try {
-            trelacion.renunciarAsig(dni, id_asig);
-        } catch (Exception ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-    }
-
-    public static void setearTexto(JTextArea textarea) {
-        String texto="";
-        String asignatura;
-        for (int x = listaAsig.size()-1; x>=0; x--) {
-            asignatura= listaAsig.get(x).getNombre();
-            texto=asignatura +"\n"+texto;
-        }
-        textarea.setText(texto);
-
-    }
-
-    public static void conseguirListaAlum(JMenuItem menuProgramacion, JTextArea textArea) {
-        String nombreAsig= menuProgramacion.getText();
-        try {
-            int codigoAsig=tasig.conseguirNombreAsig(nombreAsig);
-            ArrayList<Alumno> listaalumnos= new ArrayList();
-        listaalumnos=trelacion.conseguirDNIalum(codigoAsig,listaalumnos);
-
-        ArrayList <Alumno>listaOrdenada= new ArrayList();
-        listaOrdenada=ta.seleccionarNombreAlumno(listaalumnos,listaOrdenada);//preguntar como ordenar el arraylist alfabeticamente
-
-        String texto="";
-            for (int i = 0; i < listaOrdenada.size(); i++) {
-                String nombre= listaOrdenada.get(i).getNombre()+" "+ listaOrdenada.get(i).getApellido();
-                texto= nombre +"\n"+ texto;
-            }
-            textArea.setText(texto);
-
-        } catch (Exception ex) {
-            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-    }
-    }
+}
 
 

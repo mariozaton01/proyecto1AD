@@ -5,11 +5,13 @@
  */
 package Ventanas;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Controlador.Controlador;
 import creacionFicheros.AlumnosRelated;
+import creacionFicheros.XMLrelated;
 
 /**
  *
@@ -22,8 +24,15 @@ public class VentanaAlumnos extends javax.swing.JFrame {
      */
     public VentanaAlumnos() {
         initComponents();
-    }
+        try{
+            XMLrelated.createXML();
 
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

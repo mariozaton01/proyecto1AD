@@ -14,7 +14,6 @@ import  Controlador.Controlador;
  */
 public class VentanaElegirAñadirRetirar extends javax.swing.JFrame {
 
-    
 
     /**
      * Creates new form VentanaElegirAñadirRetirar
